@@ -1,0 +1,64 @@
+There are 4 corner cases:
+1. Uncollectible:
+				WeeklyResolution
+				EndOfCycleResolution
+2. Run Away: weekly_resolution
+				WeeklyResolution
+				EndOfCycleResolution
+3. Premature Clearance
+4. Deceased
+
+Independent of each other, it is working. However, we haven't tested
+their behavior if there are more than 1 cases in a given group loan cycle.
+
+It can be:
+1. several corner cases in a given collection
+2. Several corner cases in a group_loan, different weekly_collection
+
+Things to be tested:
+1. weekly_collection.amount_receivable on the corner_cases week
+2. weekly_collection.amount_receivable after the corner cases week
+3. compulsory_savings_return_amount at the end of group_loan cycle
+
+
+Important rules:
+If there is premature_clearance created in a given week: don't allow run_away or deceased creation.
+	Why? Because run_away or deceased creation will impact the premature_amount needed to be paid. 
+	
+So, in the field: if there is deceased, run_away and premature clearance on the same week:
+1. Submit the run_away or deceased data
+2. Submit the premature_clearance data 
+3. Confirm weekly collection. Amount receivable must be correct
+
+
+Scenarios:
+1. multiple Premature clearances happening on a given week
+2. multiple premature clearances happening on different week
+3. run_away (weekly resolution) 			+ premature (different week)  
+4. run_away (weekly resolution) 			+ premature (same week)
+5. run_away (end_of_cycle resolution) + premature (different week)  
+6. run_away (end_of_cycle resolution) + premature (same week)
+3. premature (different week)  	+ 	run_away (weekly resolution) 			
+4. premature (same week)        +   run_away (weekly resolution) 			
+5. premature (different week)   +   run_away (end_of_cycle resolution) 
+6. premature (same week)        +   run_away (end_of_cycle resolution) 
+
+
+7. run_away( weekly_resolution ) + deceased 
+8. run_away( end_of_cycle ) + deceased 
+9. deceased  + run_away ( weekly_resolution )
+10. deceased + run_away ( end_of_cycle )
+
+
+11. deceased + premature
+12. premature + deceased
+
+
+
+3. 2 run_away, premature_clearance, deceased, 1 uncollectible on a single week  << ultimate
+4. run_away (weekly), premature_clearance, run_away (weekly), premature_clearance (one after another)
+5. run_away (weekly), premature_clearance, run_away (end_of_cycle), premature_clearance (one after another)
+6. run_away, deceased, premature_clearance
+
+
+Those 6 scenarios. Will the combination case work? no idea. 
