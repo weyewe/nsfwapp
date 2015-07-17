@@ -1,7 +1,7 @@
 development:
   adapter: postgresql
   encoding: unicode
-  database: sikki_dev
+  database: nsfw_dev
   pool: 5
   username: weyewe
   password: willy1234W
