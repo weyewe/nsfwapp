@@ -8,16 +8,19 @@ class Api2::ImagesController < Api2::BaseReportApiController
   def index
     
     today  = DateTime.now
-    yesterday  = today - 1.days
+ 
     
-    start_of_today = today.begining_of_day
-    end_of_today = today.end_of_day
+    
+    today_yday = Date.today.yday().to_i
+    today_year  = Date.today.year.to_i
     
     @parent = SubReddit.find_by_id params[:parent_id]
-    query = Image.where(:sub_reddit_id => @parent.id).where{
-        ( created_at.gte start_of_today) & 
-        ( created_at.lt end_of_today)
-    }.order("id ASC")
+    query = Image.where(
+      :sub_reddit_id => @parent.id,
+      :yday => today_yday,
+      :year => today_year
+      
+      ).order("id ASC")
     
     @objects = query 
     @total = query.count 

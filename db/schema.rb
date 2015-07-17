@@ -25,6 +25,8 @@ ActiveRecord::Schema.define(version: 20150717062335) do
     t.string   "reddit_name"
     t.string   "main_url"
     t.boolean  "is_gif",        default: false
+    t.integer  "year"
+    t.integer  "yday"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

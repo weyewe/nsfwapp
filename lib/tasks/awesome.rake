@@ -18,7 +18,7 @@ task :generate_sub_reddits => :environment do
     SubReddit.all.each {|x| x.destroy } 
     
     ["aww","nsfw", "milf", "collegesluts", "O_faces", 
-    "cumsluts", "nsfw_young", "drunkgonewild", "HappyEmbarassedGirls", "drunkgirls", "PublicFlashing", "UnAshamed"].each do |name|
+    "cumsluts", "nsfw_young", "drunkgonewild", "HappyEmbarrassedGirls", "drunkgirls", "PublicFlashing", "UnAshamed"].each do |name|
        a = SubReddit.create_object( :name =>  name ) 
        if not a.nil?
            puts "#{a.name} is available"

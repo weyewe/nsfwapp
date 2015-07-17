@@ -40,6 +40,9 @@ class Image < ActiveRecord::Base
 	end
 	
 	def self.create_with_direct_image_link( sub_reddit_object , post_data ) 
+		
+ 
+    
     	new_object = self.new
     	new_object.sub_reddit_id   = sub_reddit_object.id 
 		new_object.content_url		= post_data['data']['url']	
@@ -48,7 +51,9 @@ class Image < ActiveRecord::Base
     	new_object.reddit_author	= post_data['data']['author']		
     	new_object.reddit_name 		= post_data['data']['name']		
     	new_object.main_url 		= post_data['data']['url']	
-    	new_object.is_gif       	= self.is_gif_url?(post_data['data']['url'])	
+    	new_object.is_gif       	= self.is_gif_url?(post_data['data']['url'] ) 
+    	new_object.yday = Date.today.yday().to_i
+    	new_object.year = Date.today.year.to_i
     	
     	new_object.save 
     	

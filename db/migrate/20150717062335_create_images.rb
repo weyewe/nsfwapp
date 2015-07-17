@@ -11,6 +11,9 @@ class CreateImages < ActiveRecord::Migration
     	t.string :reddit_name 
     	t.string :main_url 
     	t.boolean :is_gif, :default => false 
+    	
+    	    	t.integer :year
+    	t.integer :yday
 
       t.timestamps
     end

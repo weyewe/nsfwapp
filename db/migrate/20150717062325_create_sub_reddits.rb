@@ -4,6 +4,7 @@ class CreateSubReddits < ActiveRecord::Migration
     	t.string :name 
     	t.string :image_url
 
+
       t.timestamps
     end
   end

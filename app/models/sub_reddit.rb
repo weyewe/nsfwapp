@@ -41,6 +41,8 @@ class SubReddit < ActiveRecord::Base
   
   
   def update_posts
+    
+    
     indirect_link_array = []
     
     begin
