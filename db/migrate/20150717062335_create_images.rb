@@ -2,7 +2,7 @@ class CreateImages < ActiveRecord::Migration
   def change
     create_table :images do |t|
  
-
+      t.integer :sub_reddit_id 
     	t.string :content_url
 
     	t.string :reddit_url 

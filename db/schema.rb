@@ -17,6 +17,7 @@ ActiveRecord::Schema.define(version: 20150717062335) do
   enable_extension "plpgsql"
 
   create_table "images", force: true do |t|
+    t.integer  "sub_reddit_id"
     t.string   "content_url"
     t.string   "reddit_url"
     t.string   "reddit_title"
