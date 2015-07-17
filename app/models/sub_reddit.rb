@@ -28,21 +28,11 @@ class SubReddit < ActiveRecord::Base
 		self.destroy 
 		
 	end
-
-  def get_reddit_url
-    if not self.last_parsed_reddit_name.nil? and self.last_parsed_reddit_name.length != 0 
-      puts "The one with last parsed"
-      url = "http://www.reddit.com/r/#{self.name}/hot.json?limit=#{LIMIT_REDDIT}&before=#{last_parsed_reddit_name}&format=json"
-    else
-      puts "virgin shite"
-      url = "http://www.reddit.com/r/#{self.name}/hot.json?limit=#{LIMIT_REDDIT}&format=json"
-    end
-    return url 
-  end
-
+ 
   def get_latest_posts
+     
     
-    url  = self.get_reddit_url
+    url = "http://www.reddit.com/r/#{self.name}/hot.json?limit=100&format=json"
     
     response = HTTParty.get( url )
      
@@ -54,73 +44,32 @@ class SubReddit < ActiveRecord::Base
     indirect_link_array = []
     
     begin
-      parsed_json = self.get_latest_posts 
-      # puts "after parsed json.."
-      # puts "#{parsed_json}"
+      parsed_json = self.get_latest_posts  
       
       
+      if parsed_json['data']['children'].length != 0 
+        
+      
+       
+        parsed_json['data']['children'].each do |post_data| 
+          
+          next if not Image.is_direct_image_link?(  post_data['data']['url'] )  
+          
+          Image.create_with_direct_image_link( self, post_data )  
+          self.image_url = Image.order("id DESC").first.main_url
+          self.save 
     
-      if parsed_json['data']['children'].length != 0
-        # update the last extracted reddit post 
-        first_data = parsed_json['data']['children'].first
-        self.last_parsed_reddit_name = first_data['data']['name'] 
-        self.save
-        
-        # puts "TOTal error: #{self.errors.size}"
-        
-      
-      
-        counter = 0 
-        parsed_json['data']['children'].each do |post_data|
-          
-          # puts " #{counter}. checking name: #{ post_data['data']['name']} "
-          
-          counter = counter + 1 
-          
-          # next if not Image.find_by_reddit_name( post_data['data']['name']).nil? 
-          
-          initial_image_count  = Image.count 
-          if Image.is_direct_image_link?(  post_data['data']['url'] )
-            # puts "it is direct image link"
-            
-            Image.create_with_direct_image_link( self, post_data ) 
-          else
-            # puts "it is indirect image link"
-            Image.create_with_indirect_image_link( self, post_data )
-            # indirect_link_array <<   post_data['data']['url']
-          end
-          
-          final_image_count = Image.count 
-          if final_image_count == initial_image_count
-            indirect_link_array <<  post_data['data']['url']
-          end
+    
         end
       
       
       end
     rescue 
-      # puts $!, $@
+      puts $!, $@
       return nil
-    end
-    
-  
-    puts "link that are failed to be parsed:"
-    # puts indirect_link_array
-    
+    end 
     
   end
   
   
 end
-
-=begin
-
-SubReddit.create_object( :name => "aww")
-
-Image.all.each {|x| x.destroy } 
-a = SubReddit.first
-a.last_parsed_reddit_name = nil
-a.save 
-
-a.update_posts 
-=end

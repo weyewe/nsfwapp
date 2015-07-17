@@ -1,9 +1,9 @@
 json.success true 
 json.total @total
-json.group_loans @objects do |object|
+json.sub_reddits @objects do |object|
 	json.id 								object.id 
 	json.name 			 			object.name
-	json.group_number 			 			object.group_number
+	json.image_url 			 			object.image_url
 
 end
 

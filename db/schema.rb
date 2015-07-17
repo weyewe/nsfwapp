@@ -40,7 +40,7 @@ ActiveRecord::Schema.define(version: 20150717062335) do
 
   create_table "sub_reddits", force: true do |t|
     t.string   "name"
-    t.string   "last_parsed_reddit_name"
+    t.string   "image_url"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

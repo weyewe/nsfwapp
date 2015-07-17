@@ -12,6 +12,9 @@ NeoSikki::Application.routes.draw do
 
   namespace :api2 , constraints: { format: 'json' } do
     devise_for :users
+    resources :sub_reddits
+    resources :images
+    
     resources :group_loan_weekly_collection_reports
 
     resources :membership_savings_reports 

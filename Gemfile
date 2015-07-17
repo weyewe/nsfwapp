@@ -38,7 +38,7 @@ gem 'protected_attributes'
 gem 'delayed_job_active_record'
 
 gem "lol_dba"
-gem "fog" 
+# gem "fog" 
 # https://github.com/laserlemon/figaro
 gem "figaro"
 gem 'prawn', 
